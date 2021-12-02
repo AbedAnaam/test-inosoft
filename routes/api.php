@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MobilController;
+use App\Http\Controllers\MotorController;
+use App\Http\Controllers\KendaraanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +36,11 @@ Route::group(['middleware' => ['jwt.verify']], function ()
         'create', 'edit'
     ]);
 
+    Route::resource('motor', MotorController::class)->except([
+        'create', 'edit'
+    ]);
+
+    Route::resource('kendaraan', KendaraanController::class)->except([
+        'create', 'edit'
+    ]);
 });

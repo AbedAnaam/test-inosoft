@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kendaraan;
+use App\Models\Motor;
 use App\Models\Mobil;
 use App\Models\User;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 use JWTAuth;
 use DB;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Validator;
 
-class MobilController extends Controller
+class KendaraanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,16 +24,16 @@ class MobilController extends Controller
      */
     public function index()
     {
-        $mobil = DB::collection('tbl_mobil')->get();
+        $kendaraan = DB::collection('tbl_kendaraan')->get();
 
-        if (!$mobil) {
+        if (!$kendaraan) {
             return response()->json([
                 'success' => false,
-                'message' => 'Maaf, data Mobil tidak ditemukan.'
+                'message' => 'Maaf, data Kendaraan tidak ditemukan.'
             ], 400);
         }
     
-        return $mobil;
+        return $kendaraan;
     }
 
     /**
@@ -51,11 +55,11 @@ class MobilController extends Controller
     public function store(Request $request)
     {
         // Validate data
-        $data = $request->only('mesin', 'kapasitas_penumpang', 'tipe');
+        $data = $request->only('tahun_keluaran', 'warna', 'harga');
         $validator = Validator::make($data, [
-            'mesin' => 'required|string',
-            'kapasitas_penumpang' => 'required',
-            'tipe' => 'required',
+            'tahun_keluaran' => 'required|string',
+            'warna' => 'required',
+            'harga' => 'required',
         ]);
 
         // failed responses
@@ -63,48 +67,48 @@ class MobilController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        // request valid, create new mobil
-        $mobil = Mobil::create([
-            'mesin' => $request->mesin,
-            'kapasitas_penumpang' => $request->kapasitas_penumpang,
-            'tipe' => $request->tipe,
+        // request valid, create new Kendaraan
+        $kendaraan = Kendaraan::create([
+            'tahun_keluaran' => $request->tahun_keluaran,
+            'warna' => $request->warna,
+            'harga' => $request->harga,
         ]);
 
-        // mobil created, return success response
+        // kendaraan created, return success response
         return response()->json([
             'success' => true,
-            'message' => 'Mobil Created Successfully',
-            'data' => $mobil,
+            'message' => 'Kendaraan Created Successfully',
+            'data' => $kendaraan,
         ], Response::HTTP_OK);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Mobil  $mobil
+     * @param  \App\Models\Kendaraan  $kendaraan
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $mobil = Mobil::find($id);
+        $kendaraan = Kendaraan::find($id);
 
-        if (!$mobil) {
+        if (!$kendaraan) {
             return response()->json([
                 'success' => 'false',
-                'message' => 'Sorry, mobil not found'
+                'message' => 'Maaf, Kendaraan tidak ditemukan'
             ], 400);
         }
 
-        return $mobil;
+        return $kendaraan;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Mobil  $mobil
+     * @param  \App\Models\Kendaraan  $kendaraan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Mobil $mobil)
+    public function edit(Kendaraan $kendaraan)
     {
         //
     }
@@ -113,48 +117,48 @@ class MobilController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mobil  $mobil
+     * @param  \App\Models\Kendaraan  $kendaraan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mobil $mobil)
+    public function update(Request $request, Kendaraan $kendaraan)
     {
-        $data = $request->only('mesin', 'kapasitas_penumpang', 'tipe');
+        $data = $request->only('tahun_keluaran', 'warna', 'harga');
         $validator = Validator::make($data, [
-            'mesin' => 'required|string',
-            'kapasitas_penumpang' => 'required',
-            'tipe' => 'required',
+            'tahun_keluaran' => 'required|string',
+            'warna' => 'required',
+            'harga' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        $mobil = $mobil->update([
-            'mesin' => $request->mesin,
-            'kapasitas_penumpang' => $request->kapasitas_penumpang,
-            'tipe' => $request->tipe,
+        $kendaraan = $kendaraan->update([
+            'tahun_keluaran' => $request->tahun_keluaran,
+            'warna' => $request->warna,
+            'harga' => $request->harga,
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Mobil updated successfully',
-            'data' => $mobil
+            'message' => 'Kendaraan updated successfully',
+            'data' => $kendaraan
         ], Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Mobil  $mobil
+     * @param  \App\Models\Kendaraan  $kendaraan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mobil $mobil)
+    public function destroy(Kendaraan $kendaraan)
     {
-        $mobil->delete();
+        $kendaraan->delete();
 
         return response()->json([
             'success' => 'true',
-            'message' => 'Mobil Deleted Successfully',
+            'message' => 'Kendaraan Deleted Successfully',
         ], Response::HTTP_OK);
     }
 }

@@ -3,16 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Database\Eloquent\Model;
+
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class Mobil extends Model
 {
     use HasFactory;
 
-    protected $table = 'mobils';
+    protected $connection = 'mongodb';
+
+    protected $table = 'tbl_mobil';
     
     protected $fillable = [
-        'mesin', 'kapasitas_penumpang', 'tipe'
+        'mobil_id','mesin', 'kapasitas_penumpang', 'tipe'
     ];
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class);
+    }
 }

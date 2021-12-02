@@ -95,10 +95,10 @@ return [
             'driver'    => 'mongodb',
             'host'      => env('MONGO_DB_HOST', 'localhost'),
             'port'      => env('MONGO_DB_PORT', '27017'),
-            'database'  => env('MONGO_DB_DATABASE', 'penjualan_kendaraan'),
+            'database'  => env('MONGO_DB_DATABASE', 'backend_inosoft'),
             'username'  => env('MONGO_DB_USERNAME', ''),
             'password'  => env('MONGO_DB_PASSWORD', ''),
-            'options'   => ['database' => 'penjualan_kendaraan']
+            'options'   => ['database' => 'backend_inosoft']
         ]
 
     ],
